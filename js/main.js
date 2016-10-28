@@ -88,7 +88,6 @@ $('.song-list li').click(function() {
 
     /* ----- Stops Current Song From Playing ----- */
     audio.pause();
-    audio.currentTime = 0;
     $('#pause').hide();
     $('#play').show();
 
@@ -136,6 +135,7 @@ $('#next').click(function(){
     var nextSongHtml = '';
 
     audio.pause();
+    audio.currentTime = 0;
 
     /* ----- Adds HTML ----- */
     nextSongHtml += '<img class="album-art" src="' + album + '">';
@@ -171,10 +171,11 @@ $('#next').click(function(){
 
     /* ----- Gets Song From Current ----- */
     audio = new Audio($(next).attr('song'));
+    audio.load();
 
     /* ----- Gets Duration From Current ----- */
     $('.progress-bar .duration').text(duration);
-    
+
     audio.play();
     audio.addEventListener('timeupdate', progress, false);
     audio.volume = parseFloat($( "#slider-volume" ).slider('option', 'value') / 100);
@@ -191,6 +192,7 @@ $('#previous').click(function(){
     var previousSongHtml = '';
 
     audio.pause();
+    audio.currentTime = 0;
 
     /* ----- Adds HTML ----- */
     previousSongHtml += '<img class="album-art" src="' + album + '">';
@@ -263,7 +265,7 @@ function progress() {
 
     /* ----- Autoplay Next Song When Song Is Over ----- */
     if(audio.currentTime >= audio.duration) {
-        $('#next').trigger('click');
+        $('#next').click();
     }
 }
 
@@ -292,4 +294,5 @@ $('.max-volume').click(function(event){
 $('.volume-popup').click(function(event) {
     event.stopPropagation();
 });
+
 
